@@ -36,6 +36,7 @@ def train(date, ticker) -> None:
     train_cols = df.columns.difference(['Close'])
 
     X_train = train[train_cols].values.reshape(-1, len(train_cols) - 1)
+
     X_validation = validation[train_cols].values.reshape(
         -1, len(train_cols) - 1)
 
@@ -51,4 +52,4 @@ def train(date, ticker) -> None:
 
 
 train('2023-07-10', 'AAPL')
-# print(Path.cwd())
+# # print(Path.cwd())
