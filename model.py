@@ -5,9 +5,10 @@ from keras import layers
 from keras.optimizers.legacy import Adam
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler
+from data_manager.features import features_previous_prices
 
 
-def load_pipeline() -> keras.Sequential():
+def load_pipeline() -> Pipeline:
     tf.random.set_seed = datetime.datetime.now()
     myModel = keras.Sequential()
     n_features = 2  # do make a config file laterwards

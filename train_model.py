@@ -25,13 +25,20 @@ def train(date, ticker) -> None:
         shuffle=False,
     )
 
-    Y_train = train['Close']
-    Y_validation = validation['Close']
+    model_dataset = pd.DataFrame(model_dataset)
+    unseen_dataset = pd.DataFrame(unseen_dataset)
+    train = pd.DataFrame(train)
+    validation = pd.DataFrame(validation)
+
+    Y_train = train['Close'].values.reshape(-1, 1)
+    Y_validation = validation['Close'].values.reshape(-1, 1)
 
     train_cols = df.columns.difference(['Close'])
-    X_train = np.array(train[train_cols].apply(np.array, axis=1))
-    X_validation = np.array(validation[train_cols].apply(np.array, axis=1))
-    print()
+
+    X_train = train[train_cols].values.reshape(-1, len(train_cols) - 1)
+    X_validation = validation[train_cols].values.reshape(
+        -1, len(train_cols) - 1)
+
     pipe_line.fit(
         X_train, Y_train,
         model__epochs=100,
