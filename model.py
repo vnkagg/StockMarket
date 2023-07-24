@@ -2,13 +2,13 @@ import datetime
 import tensorflow as tf
 from tensorflow import keras
 from keras import layers
-from keras.optimizers.legacy import Adam
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import MinMaxScaler
+# from keras.optimizers import Adam
+# from sklearn.pipeline import Pipeline
+# from sklearn.preprocessing import MinMaxScaler
 from data_manager.features import features_previous_prices
 
 
-def load_pipeline() -> Pipeline:
+def load_model():
     tf.random.set_seed = datetime.datetime.now()
     myModel = keras.Sequential()
     n_features = 2  # do make a config file laterwards
@@ -50,13 +50,13 @@ def load_pipeline() -> Pipeline:
     # compile model
     myModel.compile(
         loss='mean_squared_error',
-        optimizer=Adam(learning_rate=0.001),
+        optimizer=tf.keras.optimizers.Adam(learning_rate=0.0005),
         metrics=['mean_squared_error']
     )
-    pipe_line = Pipeline(
-        [
-            ("scaling", MinMaxScaler()),
-            ("model", myModel)
-        ]
-    )
-    return pipe_line
+    # pipe_line = Pipeline(
+    #     [
+    #         ("scaling", MinMaxScaler()),
+    #         ("model", myModel)
+    #     ]
+    # )
+    return myModel

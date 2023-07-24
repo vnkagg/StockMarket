@@ -4,25 +4,29 @@
 
 import yfinance as yf
 import datetime
-import pandas
+import pandas as pd
 from data_manager.manage import save_database
+from data_manager.features import clean_features
+
+# during prediction
 
 
 def get_stocks(dates, ticker):
-    stocks = []
+    df = pd.DataFrame()
     for date in dates:
         date_obj = datetime.datetime.strptime(date, '%Y-%m-%d')
-        start = date_obj.strftime('%Y-%m-%d')
-        end = (date_obj + datetime.timedelta(days=1)).strftime('%Y-%m-%d')
-        stock = yf.download(ticker, start, end)
-        entry = {
-            "date": start,
-            "close": stock['Close']
-        }
-        stocks.append(entry)
-    return pandas.DataFrame(stocks).set_index('Date')
+        end = date_obj.strftime('%Y-%m-%d')
+        start = (date_obj - datetime.timedelta(days=10)).strftime('%Y-%m-%d')
+        stock = yf.download(ticker, start=start,
+                            end=end)['Close'].reset_index()
+        temp_df = clean_features(stock)
+        print(temp_df)
+        df = pd.concat([df, temp_df])
+        # df = pd.concat([df, temp_df.loc[date]])
+    return df
 
 
+# during training/ refreshing everyday
 def build_database(till_date, ticker):
     try:
         db = yf.download(ticker, end=till_date).reset_index()
