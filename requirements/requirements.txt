@@ -1,0 +1,10 @@
+numpy
+pandas
+math
+calendar
+datetime
+sklearn
+scikit-learn
+tensorflow
+pickle
+yfinance
