@@ -8,10 +8,10 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 
 
-def train(date, ticker) -> None:
+def train(start_date, end_date, ticker) -> None:
     # date = datetime(date).strftime('%Y-%m-%d')
-    build_database(date, ticker)
-    df: pd.DataFrame = finalise_features(date, ticker)
+    build_database(start_date, end_date, ticker)
+    df: pd.DataFrame = finalise_features(end_date, ticker)
 
     model_dataset, unseen_dataset = train_test_split(
         df,
@@ -61,9 +61,8 @@ def train(date, ticker) -> None:
         validation_data=(X_VALIDATION_SCALED, Y_VALIDATION_SCALED)
     )
 
-    save_my_model(MODEL, date, ticker)
-    save_my_scaler(SCALER, date, ticker)
+    save_my_model(MODEL, end_date, ticker)
+    save_my_scaler(SCALER, end_date, ticker)
 
 
-train('2023-07-21', 'AAPL')
-# # print(Path.cwd())
+train('2020-07-26', '2023-07-26', 'AAPL')  # print(Path.cwd())
